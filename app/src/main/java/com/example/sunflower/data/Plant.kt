@@ -15,8 +15,8 @@ data class Plant(
     val wateringInterval: Int = 7,
     val imageUrl: String = ""
 ) {
-
-    fun shouldBeWatered(since: Calendar, lastWateringDate: Calendar) = since > lastWateringDate.apply { add(DAY_OF_YEAR, wateringInterval) }
+    fun shouldBeWatered(since: Calendar, lastWateringDate: Calendar) =
+        since > lastWateringDate.apply { add(DAY_OF_YEAR, wateringInterval) }
 
     override fun toString() = name
 }

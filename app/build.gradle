@@ -23,7 +23,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.google.samples.apps.sunflower"
+        applicationId "com.example.sunflower"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
