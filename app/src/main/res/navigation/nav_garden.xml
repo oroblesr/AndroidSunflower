@@ -11,4 +11,16 @@
         tools:layout="@layout/fragment_home_view_pager">
 
     </fragment>
+
+    <fragment
+        android:id="@+id/plant_detail_fragment"
+        android:name="com.example.sunflower.PlantDetailFragment"
+        android:label="@string/plant_details_title"
+        tools:layout="@layout/fragment_plant_detail">
+
+
+        <argument
+            android:name="plantId"
+            app:argType="string" />
+    </fragment>
 </navigation>

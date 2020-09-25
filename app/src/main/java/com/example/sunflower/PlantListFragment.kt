@@ -23,9 +23,10 @@ class PlantListFragment : Fragment() {
         context ?: return binding.root
 
         val adapter = PlantAdapter()
+        binding.plantList.adapter = adapter
+
         subscribeUi(adapter)
         setHasOptionsMenu(true)
-        binding.plantList.adapter = adapter
 
         return binding.root
     }

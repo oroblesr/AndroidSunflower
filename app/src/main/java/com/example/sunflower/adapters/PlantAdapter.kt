@@ -8,11 +8,14 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.sunflower.data.Plant
-
 import com.example.sunflower.HomeViewPagerFragmentDirections
+import com.example.sunflower.PlantListFragment
+import com.example.sunflower.data.Plant
 import com.example.sunflower.databinding.ListItemPlantBinding
 
+/**
+ * Adapter for the [RecyclerView] in [PlantListFragment].
+ */
 class PlantAdapter : ListAdapter<Plant, RecyclerView.ViewHolder>(PlantDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return PlantViewHolder(

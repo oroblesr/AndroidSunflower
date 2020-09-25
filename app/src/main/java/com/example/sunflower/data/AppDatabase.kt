@@ -8,9 +8,10 @@ import androidx.work.WorkManager
 import com.example.sunflower.utilities.DATABASE_NAME
 import com.example.sunflower.workers.SeedDatabaseWorker
 
-@Database(entities = [Plant::class], version = 1, exportSchema = false)
+@Database(entities = [GardenPlanting::class, Plant::class], version = 1, exportSchema = false)
 @TypeConverters(SunflowerConverters::class)
 abstract class AppDatabase : RoomDatabase() {
+    abstract fun gardenPlantingDao(): GardenPlantingDao
     abstract fun plantDao(): PlantDao
 
     companion object {

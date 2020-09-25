@@ -13,6 +13,7 @@ import com.example.sunflower.databinding.FragmentHomeViewPagerBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
 class HomeViewPagerFragment : Fragment() {
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
