@@ -11,11 +11,8 @@ class GardenPlantingRepository private constructor(private val gardenPlantingDao
         gardenPlantingDao.deleteGardenPlanting(gardenPlanting)
     }
 
-    fun isPlanted(plantId: String) {
+    fun isPlanted(plantId: String) =
         gardenPlantingDao.isPlanted(plantId)
-    }
-
-    fun getPlantedGardens() = gardenPlantingDao.getPlantedGardens()
 
     companion object {
         // For singleton

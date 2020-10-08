@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.sunflower.data.Plant
 import com.example.sunflower.databinding.FragmentPlantDetailBinding
@@ -21,7 +22,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 
 class PlantDetailFragment : Fragment() {
+
     private val args: PlantDetailFragmentArgs by navArgs()
+
     private val plantDetailViewModel: PlantDetailViewModel by viewModels {
         InjectorUtils.providePlantDetailViewModelFactory(requireActivity(), args.plantId)
     }
@@ -43,14 +46,16 @@ class PlantDetailFragment : Fragment() {
                 plant?.let {
                     hideAppBarFab(fab)
                     plantDetailViewModel.addPlantToGarden()
-                    Snackbar.make(root, R.string.added_plant_to_garden, Snackbar.LENGTH_SHORT)
+                    Snackbar.make(root, R.string.added_plant_to_garden, Snackbar.LENGTH_LONG)
                         .show()
                 }
             }
-            // TODO add nav to gallery
+
+            galleryNav.setOnClickListener { navigateToGallery() }
 
             var isToolbarShown = false
 
+            // scroll change listener begins at Y = 0 when image is fully collapsed
             plantDetailScrollview.setOnScrollChangeListener(
                 NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, _ ->
 
@@ -85,17 +90,22 @@ class PlantDetailFragment : Fragment() {
                     else -> false
                 }
             }
-
         }
-
         setHasOptionsMenu(true)
+
         return binding.root
     }
 
-    fun interface Callback {
-        fun add(plant: Plant?)
+    private fun navigateToGallery() {
+        plantDetailViewModel.plant.value?.let { plant ->
+            val direction =
+                PlantDetailFragmentDirections.actionPlantDetailFragmentToGalleryFragment(plant.name)
+            findNavController().navigate(direction)
+        }
     }
 
+    // Helper function for calling a share functionality.
+    // Should be used when user presses a share button/menu item.
     @Suppress("DEPRECATION")
     private fun createShareIntent() {
         val shareText = plantDetailViewModel.plant.value.let { plant ->
@@ -105,17 +115,26 @@ class PlantDetailFragment : Fragment() {
                 getString(R.string.share_text_plant, plant.name)
             }
         }
-        val shareIntent = ShareCompat.IntentBuilder.from(requireActivity()).setText(shareText)
-            .setType("text/plain").createChooserIntent()
+        val shareIntent = ShareCompat.IntentBuilder.from(requireActivity())
+            .setText(shareText)
+            .setType("text/plain")
+            .createChooserIntent()
             .addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
         startActivity(shareIntent)
     }
 
-
+    // FloatingActionButtons anchored to AppBarLayouts have their visibility controlled by the scroll position.
+    // We want to turn this behavior off to hide the FAB when it is clicked.
+    //
+    // This is adapted from Chris Banes' Stack Overflow answer: https://stackoverflow.com/a/41442923
     private fun hideAppBarFab(fab: FloatingActionButton) {
         val params = fab.layoutParams as CoordinatorLayout.LayoutParams
         val behavior = params.behavior as FloatingActionButton.Behavior
         behavior.isAutoHideEnabled = false
         fab.hide()
+    }
+
+    fun interface Callback {
+        fun add(plant: Plant?)
     }
 }

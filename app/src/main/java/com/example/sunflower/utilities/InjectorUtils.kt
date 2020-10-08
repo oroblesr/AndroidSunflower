@@ -10,6 +10,19 @@ import com.example.sunflower.viewmodels.PlantDetailViewModelFactory
 import com.example.sunflower.viewmodels.PlantListViewModelFactory
 
 object InjectorUtils {
+
+    private fun getPlantRepository(context: Context): PlantRepository {
+        return PlantRepository.getInstance(
+            AppDatabase.getInstance(context.applicationContext).plantDao()
+        )
+    }
+
+    private fun getGardenPlantingRepository(context: Context): GardenPlantingRepository {
+        return GardenPlantingRepository.getInstance(
+            AppDatabase.getInstance(context.applicationContext).gardenPlantingDao()
+        )
+    }
+
     fun providePlantListViewModelFactory(fragment: Fragment): PlantListViewModelFactory {
         return PlantListViewModelFactory(getPlantRepository(fragment.requireContext()), fragment)
     }
@@ -21,20 +34,7 @@ object InjectorUtils {
         return PlantDetailViewModelFactory(
             getPlantRepository(context),
             getGardenPlantingRepository(context),
-            plantId,
-        )
-
-    }
-
-    private fun getPlantRepository(context: Context): PlantRepository {
-        return PlantRepository.getInstance(
-            AppDatabase.getInstance(context.applicationContext).plantDao()
-        )
-    }
-
-    private fun getGardenPlantingRepository(context: Context): GardenPlantingRepository {
-        return GardenPlantingRepository.getInstance(
-            AppDatabase.getInstance(context.applicationContext).gardenPlantingDao()
+            plantId
         )
     }
 }

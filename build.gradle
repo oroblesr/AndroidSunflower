@@ -15,7 +15,7 @@ buildscript {
         espressoVersion = '3.1.1'
         fragmentVersion = '1.1.0-alpha09'
         glideVersion = '4.10.0'
-        gradleVersion = '4.0.1'
+        gradleVersion = '4.0.2'
         gsonVersion = '2.8.2'
         junitVersion = '4.12'
         kotlinVersion = '1.4.10'
@@ -51,6 +51,10 @@ buildscript {
     }
 }
 
+plugins {
+    id "com.diffplug.spotless" version "5.2.0"
+}
+
 allprojects {
     repositories {
         google()
@@ -58,6 +62,9 @@ allprojects {
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+spotless {
+    kotlin {
+        target "**/*.kt"
+        ktlint(ktlintVersion).userData(['max_line_length' : '100'])
+    }
 }
